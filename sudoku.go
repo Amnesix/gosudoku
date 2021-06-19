@@ -535,6 +535,7 @@ func main() {
 	jeu.reset()
 	jeu.affiche()
 
+	exit := false
 	for {
 		mesure = 0
 		c := jeu.scr.screen.GetChar()
@@ -542,7 +543,9 @@ func main() {
 		key := gc.KeyString(c)
 		switch key {
 		case "x":
-			return
+			if exit { return }
+			exit = true
+			continue
 		case "down", "j", "s":
 			jeu.scr.yCur = (jeu.scr.yCur + 1) % 9
 		case "up", "k", "z":
@@ -590,6 +593,7 @@ func main() {
 		if jeu.verify {
 			jeu.verifier()
 		}
+		exit = false
 		jeu.affiche()
 	}
 }
