@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
-	gom "github.com/Amnesix/gomesure"
-	gc "github.com/gbin/goncurses"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
 	"strings"
+
+	gom "github.com/Amnesix/gomesure"
+	gc "github.com/gbin/goncurses"
 )
 
 // URL d'un fichier de 2365 sudoku réputés très difficiles
@@ -21,18 +22,18 @@ type Coordonnées struct {
 }
 type Lifo struct {
 	stack []Coordonnées
-	pos int
+	pos   int
 }
 
 var lifo Lifo
 
 func (l *Lifo) Push(c Coordonnées) {
 	(*l).stack = append((*l).stack, c)
-	(*l).pos ++
+	(*l).pos++
 }
 
 func (l *Lifo) Pop() Coordonnées {
-	(*l).pos --
+	(*l).pos--
 	return (*l).stack[(*l).pos]
 }
 
@@ -359,7 +360,7 @@ func (jeu *Jeu) affiche() {
 	l++
 	jeu.scr.screen.MovePrint(l, menu, "-     Previous sudoku")
 	l++
-	jeu.scr.screen.MovePrint(l, menu, "x     Exit")
+	jeu.scr.screen.MovePrint(l, menu, "x×2   Exit")
 	l++
 
 	if jeu.possible {
@@ -448,7 +449,9 @@ func (jeu *Jeu) clear() {
 }
 
 func (jeu *Jeu) undo() {
-	if lifo.isEmpty() { return }
+	if lifo.isEmpty() {
+		return
+	}
 	coordonnées := lifo.Pop()
 	jeu.scr.xCur = coordonnées.X
 	jeu.scr.yCur = coordonnées.Y
@@ -543,7 +546,9 @@ func main() {
 		key := gc.KeyString(c)
 		switch key {
 		case "x":
-			if exit { return }
+			if exit {
+				return
+			}
 			exit = true
 			continue
 		case "down", "j", "s":
